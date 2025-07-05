@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
-import { GetCoins } from '../../api';
-import type { ICoin } from '../../types';
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -13,20 +11,8 @@ const contentStyle: React.CSSProperties = {
 
 
 export default function AppContent() {
-  const [coins, setCoins] = useState<ICoin[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await GetCoins();
-      setCoins(data);
-    }
-    fetchData()
-  }, [])
-
   return (
     <Layout.Content style={contentStyle}> 
-      {coins.map((coin) => (
-        <li key={coin.id}>{coin.name}</li>
-      ))}
+      <h1>Content</h1>
     </Layout.Content>
 )}

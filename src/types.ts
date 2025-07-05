@@ -24,3 +24,14 @@ export interface ICoin {
       contractAddresses: ContractAddress[],
       explorers: string[]
 }
+
+export interface IAsset {
+    grow?: boolean,
+    growPercent?: number,
+    totalAmount?: number,
+    totalProfit?: number,
+    id: string,
+    amount: number,
+    price: number,
+    date: Date,
+}

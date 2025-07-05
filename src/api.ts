@@ -1,3 +1,5 @@
+import type { IAsset, ICoin } from './types';
+
 const options = {
   method: 'GET',
   headers: {
@@ -7,9 +9,8 @@ const options = {
 };
 const dataBaseUrl = 'https://openapiv1.coinstats.app/coins';
 
-import type { ICoin } from './types';
 
-export const GetCoins = async () => {
+export const getCrypto = async () => {
   try {
     const res = await fetch(dataBaseUrl, options)
       .then(data => data.json())
@@ -20,3 +21,31 @@ export const GetCoins = async () => {
   }
 };
 
+// Имитируем запрос за активами пользователя
+
+const userAssets = [
+  {
+    id: 'bitcoin',
+    amount: 0.02,
+    price: 26244,
+    date: new Date()
+  },
+  {
+    id: 'ethereum',
+    amount: 5,
+    price: 2800,
+    date: new Date()
+  }
+]
+
+export const getAssets = (): Promise<IAsset[]> => {
+  return new Promise((res, rej) => {
+    try {
+      setTimeout(() => {
+        return res(userAssets)
+      }, 2000)
+    } catch (error) {
+      rej(error)
+    }
+  })
+}
