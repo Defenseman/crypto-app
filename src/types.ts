@@ -35,3 +35,9 @@ export interface IAsset {
     price: number,
     date: Date,
 }
+
+export interface IContextType {
+    assets?: IAsset[];
+    crypto?: ICoin[];
+    isLoading?: boolean;
+}

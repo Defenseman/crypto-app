@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { getAssets, getCrypto } from '../../api';
-import type { ICoin, IAsset } from '../../types';
-import { percentDiffernce, capitalaze } from '../../utils';
+import CryptoContex from '../../context/CryptoContext';
+import { capitalaze } from '../../utils';
+import type { IContextType } from '../../types';
 
 const siderStyle: React.CSSProperties = {
   padding: '1rem',
 };
 
 export default function AppSider() {
-  const [crypto, setCrypto] = useState<ICoin[]>([]);
-  const [assets, setAssets] = useState<IAsset[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const preload = async () => {
-      setIsLoading(true)
-      const cryptoData = await getCrypto();
-      const userAssets = await getAssets();
-
-      setAssets(
-        userAssets.map(asset => {
-          const coin = cryptoData.find(c => c.id === asset.id);
-          return {
-            grow: asset.price < coin?.price,
-            growPercent: percentDiffernce(asset.price, coin?.price),
-            totalAmount: asset.amount * coin?.price,
-            totalProfit: asset.amount * coin?.price - asset.amount * asset.price,
-            ...asset,
-          }
-        })
-      );
-      setCrypto(cryptoData);
-      setIsLoading(false);
-    }
-    preload()
-  }, [])
-
+  const {assets, isLoading} = useContext<IContextType>(CryptoContex)
+  
   if(isLoading) {
     return <Spin fullscreen />
   }
@@ -49,7 +23,7 @@ export default function AppSider() {
           <Statistic 
             title={capitalaze(asset.id)}
             value={asset.totalAmount}
-            precision={0} // Знаков после запятой 
+            precision={0}
             valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322' }}
             prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix="$"
