@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, type PropsWithChildren } from "react";
 import { getCrypto, getAssets } from "../api";
 import type { ICoin, IAsset } from "../types";
 import { percentDiffernce } from "../utils";
@@ -10,7 +10,7 @@ const CryptoContex = createContext<IContextType>({  // Объщее кол-во 
     isLoading: false,
 })
 
-export const CryptoContexProvider = ({ children }) => {   // Чтобы передовать значения всем дочерним компонентам
+export const CryptoContexProvider = ({ children }: PropsWithChildren) => {   // Чтобы передовать значения всем дочерним компонентам
       const [crypto, setCrypto] = useState<ICoin[]>([]);
       const [assets, setAssets] = useState<IAsset[]>([]);
       const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,15 @@ export const CryptoContexProvider = ({ children }) => {   // Чтобы пере
           setAssets(
             userAssets.map(asset => {
               const coin = cryptoData.find(c => c.id === asset.id);
+              if (!coin) {
+                return {
+                    grow: false,
+                    growPercent: 0,
+                    totalAmount: 0,
+                    totalProfit: 0,
+                    ...asset,
+                }
+              }
               return {
                 grow: asset.price < coin?.price,
                 growPercent: percentDiffernce(asset.price, coin?.price),

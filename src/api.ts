@@ -35,6 +35,12 @@ const userAssets = [
     amount: 5,
     price: 2800,
     date: new Date()
+  },
+  {
+    id: 'dogecoin',
+    amount: 5000,
+    price: 0.07,
+    date: new Date()
   }
 ]
 
