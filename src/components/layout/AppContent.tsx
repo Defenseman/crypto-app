@@ -10,9 +10,11 @@ const contentStyle: React.CSSProperties = {
 };
 
 
-export default function AppContent() {
+export function AppContent() {
   return (
     <Layout.Content style={contentStyle}> 
       <h1>Content</h1>
     </Layout.Content>
 )}
+
+

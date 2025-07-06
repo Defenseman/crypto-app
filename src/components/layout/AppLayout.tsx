@@ -1,5 +1,5 @@
 import { Layout, Spin } from "antd"
-import AppContent from "./AppContent"
+import { AppContent } from "./AppContent"
 import AppFooter from "./AppFooter"
 import AppHeader from "./AppHeader"
 import AppSider from "./AppSider"
@@ -9,7 +9,7 @@ import CryptoContex from "../../context/CryptoContext"
 export const AppLayout = () => {
     const { isLoading } = useContext(CryptoContex)
     if (isLoading) {
-        return <Spin fullscreen/>
+        return <Spin fullscreen />
     }
     return (
         <Layout>

@@ -49,7 +49,7 @@ export const getAssets = (): Promise<IAsset[]> => {
     try {
       setTimeout(() => {
         return res(userAssets)
-      }, 2000)
+      }, 1)
     } catch (error) {
       rej(error)
     }
