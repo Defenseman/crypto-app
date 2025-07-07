@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Layout, Select, Space, Button } from 'antd';
+import { Layout, Select, Space, Button, Modal } from 'antd';
 import CryptoContex from '../../context/CryptoContext';
+import { ICoin } from '../../types';
 
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -13,16 +14,19 @@ const headerStyle: React.CSSProperties = {
   backgroundColor: '#4096ff',
 };
 
-
-const handleSelect = (value: string) => {
-  console.log(value);
-}
-
 export default function AppHeader() {
-  const [select, setSelect] = useState(false)
-  const { crypto } = useContext(CryptoContex)
-  
-  useEffect(() => {
+  const [select, setSelect] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coin, setCoin] = useState<ICoin | null>(null);
+  const { crypto } = useContext(CryptoContex);
+
+  const handleSelect = (value: string) => {
+    console.log(value);
+    setIsModalOpen(true);
+    setCoin(crypto?.find(c => c.id === value))
+  }
+
+   useEffect(() => {
     const keypress = (event) => {
       if(event.key === '/') {
         setSelect(prev => !prev)
@@ -52,6 +56,14 @@ export default function AppHeader() {
     )}
       />
       <Button type='primary'>Add Asset</Button>
+      <Modal
+        closable={{ 'aria-label': 'Custom Close Button' }}
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={null}
+      >
+        <h1>{coin?.name}</h1>
+      </Modal>
     </Layout.Header>
   )
 }
